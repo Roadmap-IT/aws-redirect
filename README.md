@@ -2,4 +2,7 @@
 
 Ensure certificate has been imported into the correct region in AWS ACM.
 
-terraform apply to create managed resources.
+Ensure your secret credentials are stored in $HOME/.aws/configure under the profile [roadmap]
+
+terraform init to initialize the config
+terraform apply to create or update managed resources.

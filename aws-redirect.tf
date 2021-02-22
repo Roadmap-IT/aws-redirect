@@ -21,23 +21,26 @@ variable "url" {
   type    = string
   default = "https://console.jumpcloud.com"
 }
-# variable "cert" {
-#   default = "f8b33b56-ef1c-430a-824a-d1d78f282069"
-# }
-# Find a certificate that is issued
+
+# variable "aws_access_key" {}
+# variable "aws_secret_key" {}
+
 data "aws_acm_certificate" "cert" {
   domain   = "*.rankin.co.uk"
   types    = ["IMPORTED"]
   statuses = ["ISSUED"]
 }
 
-data "aws_s3_bucket" "endpoint" {
-  bucket = var.domain
-}
+# data "aws_s3_bucket" "endpoint" {
+#   bucket = var.domain
+# }
 
 provider "aws" {
-  profile = "default"
+  # shared_credentials_file = "$HOME/.aws/credentials"
+  profile = "roadmap"
   region  = var.region
+  # access_key = var.aws_access_key
+  # secret_key = var.aws_secret_key
 }
 
 
@@ -101,7 +104,7 @@ resource "aws_cloudfront_distribution" "cf_home_redirect" {
     # bucket          = var.domain.s3.amazonaws.com
   }
 
-  #   aliases = ["mysite.example.com", "yoursite.example.com"]
+  aliases = [var.domain]
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
